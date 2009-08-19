@@ -1,0 +1,79 @@
+<mt:setvarblock name="page_title">Performance Profile for <mt:var name="template_name"></mt:setvarblock>
+
+<mt:setvarblock name="html_head" append="1">
+    <script type="text/javascript" src="<$mt:StaticWebPath$>jquery/jquery.js"></script>
+    <script type="text/javascript" src="<$mt:StaticWebPath$>plugins/Profiler/jquery.tablesorter.min.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function() { 
+        $("#listing-table").tablesorter(); 
+        $("#listing-table").bind("sortEnd",function() {
+          var count = 0;
+          $("#listing-table tr").each( function() {
+            if (count++ % 2 == 0) {
+              $(this).removeClass('odd').addClass('even');
+            } else {
+              $(this).removeClass('even').addClass('odd');
+            }
+          });
+        });
+    }); 
+    </script>
+    <style type="text/css">
+        #prototypes-listing-table .date { white-space: nowrap; }
+        #main-content { padding-top: 5px; }
+        .content-nav #main-content .msg { margin-left: 0px; }
+        .listing-header { padding: 5px 0 10px 10px; }
+        th.header { 
+          background-image: url(<$mt:StaticWebPath$>plugins/Profiler/bg.gif);     
+          cursor: pointer; 
+          font-weight: bold; 
+          background-repeat: no-repeat; 
+          background-position: center right; 
+          border-right: 1px solid #dad9c7; 
+          margin-left: -1px; 
+        }
+        th.headerSortUp { 
+          background-image: url(<$mt:StaticWebPath$>plugins/Profiler/asc.gif); 
+        }
+        th.headerSortDown { 
+          background-image: url(<$mt:StaticWebPath$>plugins/Profiler/desc.gif); 
+        }
+    </style>
+</mt:setvarblock>
+
+<$mt:include name="include/header.tmpl"$>
+
+<mt:if name="rows">
+<mt:setvarblock name="listing_header">
+</mt:setvarblock>
+<mtapp:listing loop="rows" default="<__trans phrase="It appears the template you are profiling is empty.">" empty_message="<__trans phrase="It appears the template you are profiling is empty.">" hide_pager="1" class="show_all">
+    <mt:if name="__first__">
+    <thead>
+        <tr>
+            <th id="l-tag"><__trans phrase="Tag"></th>
+            <th id="l-time"><__trans phrase="Time"></th>
+            <th id="l-call"><__trans phrase="Calls"></th>
+            <th id="l-avg"><__trans phrase="Avg."></th>
+            <th id="l-quer"><__trans phrase="Queries"></th>
+            <th id="l-hits"><__trans phrase="Hits"></th>
+            <th id="l-miss"><__trans phrase="Miss"></th>
+        </tr>
+    </thead>
+    <tbody>
+    </mt:if>
+        <tr class="<mt:if name="__odd__">odd<mt:else>even</mt:if>">
+            <td><mt:var name="tag" escape="html"></td>
+            <td><mt:var name="time" escape="html"></td>
+            <td><mt:var name="calls" escape="html"></td>
+            <td><mt:var name="avg" escape="html"></td>
+            <td><mt:var name="queries" escape="html"></td>
+            <td><mt:var name="hits" escape="html"></td>
+            <td><mt:var name="misses" escape="html"></td>
+        </tr>
+    <mt:if name="__last__">
+    </tbody>
+    </mt:if>
+</mtapp:listing>
+</mt:if>
+
+<$mt:include name="include/footer.tmpl"$>

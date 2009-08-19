@@ -1,0 +1,17 @@
+id: Profiler
+name: Template Profiler
+description: This plugin exposes a list action of the template listing screen that will allow admins to profile and output a report detailing the performance characteristics of a template.
+author_name: Endevver
+author_link: http://www.endevver.com/
+version: 0.9
+
+applications:
+  cms:
+    methods:
+      profile: 
+    list_actions:
+      template:
+        profile:
+          label: Generate Performance Report
+          order: 110
+          code: $Profiler::Profiler::Plugin::itemset_profile
