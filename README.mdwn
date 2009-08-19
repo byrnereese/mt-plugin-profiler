@@ -17,3 +17,12 @@ it easier to determine the outliers withina given tamplate.
 # Known Issues
 
 * Works only with Index Templates right now.
+
+# License
+
+The plugin is licensed under the GPL v2.
+
+# Copyright
+
+* Six Apart, 2008
+* Endevver LLC, 2009
