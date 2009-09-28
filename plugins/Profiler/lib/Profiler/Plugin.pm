@@ -9,6 +9,8 @@ sub itemset_profile {
     my $q = $app->{query};
     $app->validate_magic or return $app->error("Invalid magic");
     my @tmpls = $q->param('id');
+    # TODO - this should only ever be run against a single template
+    # Perhaps error if more than one template profiled?
     for my $tmpl_id (@tmpls) {
         my $tmpl = MT->model('template')->load($tmpl_id) 
 	    or return $app->error( "Unable to load template #" . $tmpl_id );
@@ -42,6 +44,9 @@ sub results {
 
     my $tokens = $builder->compile($ctx, $template);
 
+    $ctx->stash('blog', $app->blog);
+    $ctx->stash('blog_id', $app->blog->id);
+
     my $archive_type;
     # determine archive type for this template
     if ( $tmpl->type eq 'category' ) {
@@ -58,8 +63,6 @@ sub results {
 	$archive_type = $map->archive_type if $map;
     }
 
-    $ctx->stash('blog', $app->blog);
-    $ctx->stash('blog_id', $app->blog->id);
 
     my $e;
     if (defined $archive_type) {
@@ -70,7 +73,7 @@ sub results {
 	$ctx->{current_archive_type} = $archive_type;
 	$ctx->{archive_type} = $archive_type;
 
-	$e = load_entry( $app->blog, $t->entry_class );
+	$e = load_entry( $app, $t->entry_class );
 
 	require MT::Promise;
 	if ($t->date_based) {

@@ -18,7 +18,7 @@ sub report {
     my $total_query = 0;
     my @rows;
     foreach my $tag ( sort { $PROFILES{$b}{time} <=> $PROFILES{$a}{time} } keys %PROFILES ) {
-        my $queries = $PROFILES{$tag}{queries} || [];
+#        my $queries = $PROFILES{$tag}{queries} || [];
         my $time_avg = sprintf("%0.3f", $PROFILES{$tag}{time} / $PROFILES{$tag}{calls});
         my $queries = $PROFILES{$tag}->{queries};
         my $ramhit = map { $_ =~ m/RAMCACHE_GET/ } @$queries;
